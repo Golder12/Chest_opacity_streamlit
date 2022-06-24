@@ -3,7 +3,7 @@ import cv2
 from PIL import Image, ImageOps
 import numpy as np
 
-model = tf.keras.models.load_model('https://drive.google.com/file/d/1ua1D02e53COo8RPSCqGMUxQG3cFLq91C/view?usp=sharing')
+model = tf.keras.models.load_model('sickNormalModel.h5')
 
 import streamlit as st
 st.write("""
