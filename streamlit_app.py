@@ -32,9 +32,9 @@ else:
     prediction = import_and_predict(image, model)
     st.write("DIAGNOSIS:")
     if np.argmax(prediction) == 0:
-        st.warning("HEALTHY")
+        st.success("HEALTHY")
     else:
-        st.success("SICK")
+        st.warning("SICK")
     
     
     #st.text("Probability (0: Normal, 1: Sick")
