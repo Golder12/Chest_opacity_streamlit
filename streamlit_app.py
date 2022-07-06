@@ -13,6 +13,8 @@ st.write("""
 st.write("This is a simple image classification web app to diagnose chest opacities in patients")
 file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
 
+counter = 0
+
 def import_and_predict(image_data, model):
     
         
@@ -30,10 +32,11 @@ else:
     prediction = import_and_predict(image, model)
     st.write("DIAGNOSIS:")
     if np.argmax(prediction) == 0:
-        st.write("HEALTHY")
+        st.warning("HEALTHY")
     else:
-        st.write("SICK")
+        st.success("SICK")
     
     
     #st.text("Probability (0: Normal, 1: Sick")
     #st.write(prediction)
+    st.write("Doki")
