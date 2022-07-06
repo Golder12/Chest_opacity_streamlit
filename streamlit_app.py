@@ -27,16 +27,14 @@ if file is None:
     st.text("Please upload an image file")
 else:
     image = Image.open(file)
-    new_image = image.resize((600, 300))
-    st.image(new_image)
     prediction = import_and_predict(image, model)
     st.write("DIAGNOSIS:")
     if np.argmax(prediction) == 0:
         st.success("HEALTHY")
     else:
         st.warning("SICK")
+    st.image(image)
     
     
     #st.text("Probability (0: Normal, 1: Sick")
     #st.write(prediction)
-    st.write("Doki")
