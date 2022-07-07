@@ -56,7 +56,7 @@ if authentication_status:
 			st.success("HEALTHY")
 		else:
 			st.warning("SICK")
-	    	st.image(image)
+		st.image(image)
 	    
 	    
 	    #st.text("Probability (0: Normal, 1: Sick")
