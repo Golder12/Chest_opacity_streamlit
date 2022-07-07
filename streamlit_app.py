@@ -54,7 +54,7 @@ if authentication_status:
 		st.write("DIAGNOSIS:")
 		if np.argmax(prediction) == 0:
 			st.success("HEALTHY")
-	    	else:
+		else:
 			st.warning("SICK")
 	    	st.image(image)
 	    
@@ -63,5 +63,5 @@ if authentication_status:
 	    #st.write(prediction)
 	    
 	    #--sidebar
-	    authenticator.logout.("Logout", "sidebar")
-	    st.sidebar.title(f"Welcome {name}")
+	authenticator.logout.("Logout", "sidebar")
+	st.sidebar.title(f"Welcome {name}")
