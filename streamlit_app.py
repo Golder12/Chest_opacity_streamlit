@@ -63,5 +63,5 @@ if authentication_status:
 	    #st.write(prediction)
 	    
 	    #--sidebar
-	authenticator.logout.("Logout", "sidebar")
+	authenticator.logout("Logout", "sidebar")
 	st.sidebar.title(f"Welcome {name}")
