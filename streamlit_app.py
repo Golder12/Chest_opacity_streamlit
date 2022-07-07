@@ -47,16 +47,16 @@ if authentication_status:
 		return prediction
 
 	if file is None:
-	    st.text("Please upload an image file")
+		st.text("Please upload an image file")
 	else:
-	    image = Image.open(file)
-	    prediction = import_and_predict(image, model)
-	    st.write("DIAGNOSIS:")
-	    if np.argmax(prediction) == 0:
-		st.success("HEALTHY")
-	    else:
-		st.warning("SICK")
-	    st.image(image)
+		image = Image.open(file)
+		prediction = import_and_predict(image, model)
+		st.write("DIAGNOSIS:")
+		if np.argmax(prediction) == 0:
+			st.success("HEALTHY")
+	    	else:
+			st.warning("SICK")
+	    	st.image(image)
 	    
 	    
 	    #st.text("Probability (0: Normal, 1: Sick")
