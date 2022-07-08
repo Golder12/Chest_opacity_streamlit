@@ -38,7 +38,7 @@ if authentication_status:
 	st.write("This is a simple image classification web app to diagnose chest opacities in 		patients")
 	
 	imageUpload = st.beta_container()
-  	diagnosisNote = st.beta_container()
+	diagnosisNote = st.beta_container()
 	
 	with imageUpload:
 		file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
