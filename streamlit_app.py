@@ -36,26 +36,26 @@ if authentication_status:
 		 """
 		 )
 	st.write("This is a simple image classification web app to diagnose chest opacities in 		patients")
-	file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
-
-	col1, col2 = st.columns(2)
-
-
-	def import_and_predict(image_data, model):
-		img = cv2.resize(np.float32(image_data),(96,122))
-		image = img.reshape([-1,96,122,1])
-		prediction = model.predict(image)
-		return prediction
-		
-	authenticator.logout("Logout", "sidebar")
-	st.sidebar.title(f"Welcome {name}")
 	
-	if file is None:
-		st.text("Please upload an image file")
-		with col2:
-			txt = st.text_area('Notes about patient ultrasound...')
-	else:
-		with col1:
+	col1, col2 = st.columns(2)
+	
+	with col1:
+		file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
+
+
+		def import_and_predict(image_data, model):
+			img = cv2.resize(np.float32(image_data),(96,122))
+			image = img.reshape([-1,96,122,1])
+			prediction = model.predict(image)
+			return prediction
+		
+		authenticator.logout("Logout", "sidebar")
+		st.sidebar.title(f"Welcome {name}")
+	
+		if file is None:
+			st.text("Please upload an image file")
+		
+		else:
 			image = Image.open(file)
 			prediction = import_and_predict(image, model)
 			st.write("DIAGNOSIS:")
@@ -65,7 +65,8 @@ if authentication_status:
 				st.warning("SICK")
 			st.image(image)
 	    
-	    
+	with col2:
+		txt = st.text_area('Notes about patient ultrasound...')   
 	    #st.text("Probability (0: Normal, 1: Sick")
 	    #st.write(prediction)
 	    
