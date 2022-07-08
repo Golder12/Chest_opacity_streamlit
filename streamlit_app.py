@@ -1,11 +1,10 @@
-import pickle
-from pathlib import Path
 import streamlit as st
 import streamlit_authenticator as stauth
 import tensorflow as tf
 import cv2
 from PIL import Image, ImageOps
 import numpy as np
+import database as db
 
 
 # ---- User authentication -----
@@ -68,6 +67,10 @@ if authentication_status:
 	    
 	with diagnosisNote:
 		txt = st.text_area('Notes about patient ultrasound...')   
+		
+		
+	if st.button("Save"):
+		db.insert_patient("P0001", "Timothy Ahumuza", image, txt)
 	    #st.text("Probability (0: Normal, 1: Sick")
 	    #st.write(prediction)
 	    
