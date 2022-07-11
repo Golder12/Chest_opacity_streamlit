@@ -4,6 +4,8 @@ import tensorflow as tf
 import cv2
 from PIL import Image, ImageOps
 import numpy as np
+from pathlib import Path
+import pickle
 #import database as db
 
 
@@ -69,8 +71,8 @@ if authentication_status:
 		txt = st.text_area('Notes about patient ultrasound...')   
 		
 		
-	if st.button("Save"):
-		db.insert_patient("P0001", "Timothy Ahumuza", image, txt)
+	#if st.button("Save"):
+		#db.insert_patient("P0001", "Timothy Ahumuza", image, txt)
 	    #st.text("Probability (0: Normal, 1: Sick")
 	    #st.write(prediction)
 	    
