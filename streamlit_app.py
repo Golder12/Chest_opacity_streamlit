@@ -6,7 +6,19 @@ from PIL import Image, ImageOps
 import numpy as np
 from pathlib import Path
 import pickle
+from deta import Deta 
 #import database as db
+
+DETA_KEY = "c047zwt7_KsjtGySxoHLJPJYjvAs3DmRiAjhZVJuy"
+ 
+#initialize deta object with a project key
+deta = Deta(DETA_KEY)
+
+#This is how to connect/create a database
+db = deta.Base("patients")
+
+def insert_patient(patientId, name, image, note):
+	return db.put({"key": patientId, "name": name, "image": image, "diagnosis": note})
 
 
 # ---- User authentication -----
@@ -71,8 +83,8 @@ if authentication_status:
 		txt = st.text_area('Notes about patient ultrasound...')   
 		
 		
-	#if st.button("Save"):
-		#db.insert_patient("P0001", "Timothy Ahumuza", image, txt)
+	if st.button("Save"):
+		db.insert_patient("P0001", "Timothy Ahumuza", image, txt)
 	    #st.text("Probability (0: Normal, 1: Sick")
 	    #st.write(prediction)
 	    
