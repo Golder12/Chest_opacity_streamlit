@@ -84,7 +84,7 @@ if authentication_status:
 		
 		
 	if st.button("Save"):
-		db.insert_patient("P0001", "Timothy Ahumuza", image, txt)
+		insert_patient("P0001", "Timothy Ahumuza", image, txt)
 	    #st.text("Probability (0: Normal, 1: Sick")
 	    #st.write(prediction)
 	    
