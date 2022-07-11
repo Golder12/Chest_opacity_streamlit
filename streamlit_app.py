@@ -4,7 +4,18 @@ import tensorflow as tf
 import cv2
 from PIL import Image, ImageOps
 import numpy as np
-import database as db
+from deta import Deta 
+
+DETA_KEY = "c047zwt7_KsjtGySxoHLJPJYjvAs3DmRiAjhZVJuy"
+ 
+#initialize deta object with a project key
+deta = Deta(DETA_KEY)
+
+#This is how to connect/create a database
+db = deta.Base("patients")
+
+def insert_patient(patientId, name, image, note):
+	return db.put({"key": patientId, "name": name, "image": image, "diagnosis": note})
 
 
 # ---- User authentication -----
