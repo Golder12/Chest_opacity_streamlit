@@ -1,7 +1,8 @@
+import os
 
 from deta import Deta 
 from dotenv import load_dotenv
-
+ 
  
 DETA_KEY = "c047zwt7_KsjtGySxoHLJPJYjvAs3DmRiAjhZVJuy"
  
@@ -12,7 +13,7 @@ deta = Deta(DETA_KEY)
 db = deta.Base("patients")
 
 def insert_patient(patientId, name, image, note):
-	return db.put({"key": patientId, "name": name, "image": image, "diagnosis": notes})
+	return db.put({"key": patientId, "name": name, "image": image, "diagnosis": note})
 	
 
 
