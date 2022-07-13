@@ -105,13 +105,13 @@ if authentication_status:
 		try:
 			connection = mc.connect(host='sql3.freesqldatabase.com',database='sql3506133',user='sql3506133',password='zFmkCylKBD')
 			if connection.is_connected():
-			db_Info = connection.get_server_info()
-			print("Connected to MySQL Server version ", db_Info)
-			mySql_insert_query = """INSERT INTO UltrasoundImage (image, diagnosis, patientId)VALUES("""image""",""" currentDiagnosis""",""" 1 """)"""
-			cursor = connection.cursor()
-			cursor.execute(mySql_insert_query)
-			connection.commit()
-			print(cursor.rowcount, "Record inserted successfully into UltrasoundImage table")
+				db_Info = connection.get_server_info()
+				print("Connected to MySQL Server version ", db_Info)
+				mySql_insert_query = """INSERT INTO UltrasoundImage (image, diagnosis, patientId)VALUES("""image""",""" currentDiagnosis""",""" 1 """)"""
+				cursor = connection.cursor()
+				cursor.execute(mySql_insert_query)
+				connection.commit()
+				print(cursor.rowcount, "Record inserted successfully into UltrasoundImage table")
         	
 		except Error as e:
     			print("Error while connecting to MySQL", e)
