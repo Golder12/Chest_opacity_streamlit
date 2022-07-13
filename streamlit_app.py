@@ -111,7 +111,7 @@ if authentication_status:
 				
 			mySql_insert_query = """INSERT INTO UltrasoundImage (image, diagnosis,patientId)VALUES(%s, %s, %s) """
 
-			record = (image, diagnosis, patient)
+			record = (image, currentDiagnosis, patient)
 			cursor = connection.cursor()
 			cursor.execute(mySql_insert_query, record)
 			connection.commit()
