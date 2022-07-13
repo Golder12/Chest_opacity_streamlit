@@ -119,12 +119,12 @@ if authentication_status:
 			cursor.close()
 
 		except mysql.connector.Error as error:
-		    print("Failed to insert record into Laptop table {}".format(error))
+			print("Failed to insert record into Laptop table {}".format(error))
 
 		finally:
-		    if connection.is_connected():
-			connection.close()
-			print("MySQL connection is closed")	    #st.text("Probability (0: Normal, 1: Sick")
+			if connection.is_connected():
+				connection.close()
+				print("MySQL connection is closed")	    #st.text("Probability (0: Normal, 1: Sick")
 	    #st.write(prediction)
 	    
 	    #--sidebar
