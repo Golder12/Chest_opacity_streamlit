@@ -6,19 +6,35 @@ from PIL import Image, ImageOps
 import numpy as np
 from pathlib import Path
 import pickle
-from deta import Deta 
+import mysql.connector as mc
+from mysql.connector import Error
+#from deta import Deta 
 #import database as db
 
-DETA_KEY = "c047zwt7_KsjtGySxoHLJPJYjvAs3DmRiAjhZVJuy"
+
+
+#DETA_KEY = "c047zwt7_KsjtGySxoHLJPJYjvAs3DmRiAjhZVJuy"
  
 #initialize deta object with a project key
-deta = Deta(DETA_KEY)
+#deta = Deta(DETA_KEY)
 
 #This is how to connect/create a database
-db = deta.Base("patients")
+#db = deta.Base("patients")
 
-def insert_patient(patientId, name, image, note):
-	return db.put({"key": patientId, "name": name, "image": image, "diagnosis": note})
+#def insert_patient(patientId, name, image, note):
+	#return db.put({"key": patientId, "name": name, "image": image, "diagnosis": note})
+	
+try:
+	connection = mc.connect(host='sql3.freesqldatabase.com',database='sql3506133',user='sql3506133',password='zFmkCylKBD')
+	if connection.is_connected():
+        db_Info = connection.get_server_info()
+        print("Connected to MySQL Server version ", db_Info)
+        cursor = connection.cursor()
+        
+        
+        
+except Error as e:
+    print("Error while connecting to MySQL", e)
 
 
 # ---- User authentication -----
@@ -48,7 +64,7 @@ if authentication_status:
 		 # Chest Opacity Classification
 		 """
 		 )
-	st.write("This is a simple image classification web app to diagnose chest opacities in 		patients")
+	st.write("This is a simple image classification web app to diagnose chest opacities in patients")
 	
 	imageUpload = st.container()
 	diagnosisNote = st.container()
@@ -75,8 +91,10 @@ if authentication_status:
 			st.write("DIAGNOSIS:")
 			if np.argmax(prediction) == 0:
 				st.success("HEALTHY")
+				currentDiagnosis = "good"
 			else:
 				st.warning("SICK")
+				currentdiagnosis = "bad"
 			st.image(image)
 	    
 	with diagnosisNote:
@@ -84,7 +102,21 @@ if authentication_status:
 		
 		
 	if st.button("Save"):
-		insert_patient("P0001", "Timothy Ahumuza", image, txt)
+		try:
+			connection = mc.connect(host='sql3.freesqldatabase.com',database='sql3506133',user='sql3506133',password='zFmkCylKBD')
+			if connection.is_connected():
+			db_Info = connection.get_server_info()
+			print("Connected to MySQL Server version ", db_Info)
+			mySql_insert_query = """INSERT INTO UltrasoundImage (image, diagnosis, patientId)VALUES("""image""",""" currentDiagnosis""",""" 1 """)"""
+			cursor = connection.cursor()
+			cursor.execute(mySql_insert_query)
+			connection.commit()
+			print(cursor.rowcount, "Record inserted successfully into UltrasoundImage table")
+        	
+		except Error as e:
+    			print("Error while connecting to MySQL", e)
+
+		currentDiagnosis = ""
 	    #st.text("Probability (0: Normal, 1: Sick")
 	    #st.write(prediction)
 	    
