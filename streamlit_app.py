@@ -92,21 +92,39 @@ if authentication_status:
 		
 	if st.button("Save"):
 		try:
-			connection = mc.connect(host='sql3.freesqldatabase.com',database='sql3506133',user='sql3506133',password='zFmkCylKBD')
-			if connection.is_connected():
-				db_Info = connection.get_server_info()
-				print("Connected to MySQL Server version ", db_Info)
-				mySql_insert_query = """INSERT INTO UltrasoundImage(image, diagnosis, patientId)VALUES("""image""",""" currentDiagnosis""",""" 1 """)"""
-				cursor = connection.cursor()
-				cursor.execute(mySql_insert_query)
-				connection.commit()
-				print(cursor.rowcount, "Record inserted successfully into UltrasoundImage table")
-        	
-		except Error as e:
-    			print("Error while connecting to MySQL", e)
+			connection = mysql.connector.connect(host='sql3.freesqldatabase.com',database='sql3506133',user='sql3506133',password='zFmkCylKBD')
 
-		currentDiagnosis = ""
-	    #st.text("Probability (0: Normal, 1: Sick")
+			patient = [];
+
+			sql_select_Query = """select * from UltrasoundPatient ORDER BY patientid DESC LIMIT 1"""
+
+			cursor = connection.cursor(dictionary=True)
+			cursor.execute(sql_select_Query)
+			records = cursor.fetchall()
+			
+			print("Fetching each row using column name")
+			for row in records:
+				id = row["patientId"]
+				patient.append(id)
+				print(id)
+				print(type(patient))
+				
+			mySql_insert_query = """INSERT INTO UltrasoundImage (image, diagnosis,patientId)VALUES(%s, %s, %s) """
+
+			record = (image, diagnosis, patient)
+			cursor = connection.cursor()
+			cursor.execute(mySql_insert_query, record)
+			connection.commit()
+			print(cursor.rowcount, "Record inserted successfully into UltrasoundImage table")
+			cursor.close()
+
+		except mysql.connector.Error as error:
+		    print("Failed to insert record into Laptop table {}".format(error))
+
+		finally:
+		    if connection.is_connected():
+			connection.close()
+			print("MySQL connection is closed")	    #st.text("Probability (0: Normal, 1: Sick")
 	    #st.write(prediction)
 	    
 	    #--sidebar
