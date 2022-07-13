@@ -6,7 +6,7 @@ from PIL import Image, ImageOps
 import numpy as np
 from pathlib import Path
 import pickle
-import mysql.connector as mc
+import mysql.connector
 from mysql.connector import Error
 #from deta import Deta 
 #import database as db
