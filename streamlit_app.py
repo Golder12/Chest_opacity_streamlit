@@ -115,7 +115,7 @@ if authentication_status:
 				
 			mySql_insert_query = """INSERT INTO UltrasoundImage (image, diagnosis,patientId)VALUES(%s, %s, %s) """
 			
-			savedImage = convertToBinaryData(photo)
+			savedImage = convertToBinaryData(image)
 
 			record = (savedImage, currentDiagnosis, patient)
 			cursor = connection.cursor()
