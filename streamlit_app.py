@@ -96,6 +96,7 @@ if authentication_status:
 		
 	if st.button("Save"):
 		try:
+			print("Connecting to Database")
 			connection = mysql.connector.connect(host='sql3.freesqldatabase.com',database='sql3506133',user='sql3506133',password='zFmkCylKBD')
 
 			patient = [];
