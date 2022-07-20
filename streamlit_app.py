@@ -77,7 +77,7 @@ if authentication_status:
 			st.sidebar.title(f"Welcome {name}")
 	
 			if file is None:
-			st.text("Please upload an image file")
+				st.text("Please upload an image file")
 		
 			else:
 				image = Image.open(file)
