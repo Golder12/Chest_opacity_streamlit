@@ -62,78 +62,80 @@ if authentication_status:
 	imageUpload = st.container()
 	diagnosisNote = st.container()
 	
-	with imageUpload:
-		file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
+	with st.form(key = 'my_form'):
+		with imageUpload:
+			file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg"])
 
 
-		def import_and_predict(image_data, model):
-			img = cv2.resize(np.float32(image_data),(96,122))
-			image = img.reshape([-1,96,122,1])
-			prediction = model.predict(image)
-			return prediction
+			def import_and_predict(image_data, model):
+				img = cv2.resize(np.float32(image_data),(96,122))
+				image = img.reshape([-1,96,122,1])
+				prediction = model.predict(image)
+				return prediction
 		
-		authenticator.logout("Logout", "sidebar")
-		st.sidebar.title(f"Welcome {name}")
+			authenticator.logout("Logout", "sidebar")
+			st.sidebar.title(f"Welcome {name}")
 	
-		if file is None:
+			if file is None:
 			st.text("Please upload an image file")
 		
-		else:
-			image = Image.open(file)
-			prediction = import_and_predict(image, model)
-			st.write("DIAGNOSIS:")
-			if np.argmax(prediction) == 0:
-				st.success("HEALTHY")
-				currentDiagnosis = "good"
 			else:
-				st.warning("SICK")
-				currentdiagnosis = "bad"
-			st.image(image)
+				image = Image.open(file)
+				prediction = import_and_predict(image, model)
+				st.write("DIAGNOSIS:")
+				if np.argmax(prediction) == 0:
+					st.success("HEALTHY")
+					currentDiagnosis = "good"
+				else:
+					st.warning("SICK")
+					currentdiagnosis = "bad"
+				st.image(image)
 	    
-	with diagnosisNote:
-		txt = st.text_area('Notes about patient ultrasound...')   
+		with diagnosisNote:
+			txt = st.text_area('Notes about patient ultrasound...')   
 		
-	if st.button("Check"):
-		st.success("Button works")
+		if st.button("Check"):
+			st.success("Button works")
 		
-	if st.button("Save"):
-		try:
-			print("Connecting to Database")
-			connection = mysql.connector.connect(host='sql3.freesqldatabase.com',database='sql3506133',user='sql3506133',password='zFmkCylKBD')
+		save_button = st.form_submit_button(label='Save')
+		if save_button:
+			try:
+				print("Connecting to Database")
+				connection = mysql.connector.connect(host='sql3.freesqldatabase.com',database='sql3506133',user='sql3506133',password='zFmkCylKBD')
 
-			patient = [];
+				patient = [];
 
-			sql_select_Query = """select * from UltrasoundPatient ORDER BY patientid DESC LIMIT 1"""
+				sql_select_Query = """select * from UltrasoundPatient ORDER BY patientid DESC LIMIT 1"""
 
-			cursor = connection.cursor(dictionary=True)
-			cursor.execute(sql_select_Query)
-			records = cursor.fetchall()
+				cursor = connection.cursor(dictionary=True)
+				cursor.execute(sql_select_Query)
+				records = cursor.fetchall()
 			
-			print("Fetching each row using column name")
-			for row in records:
-				id = row["patientId"]
-				patient.append(id)
-				print(id)
-				print(type(patient))
+				print("Fetching each row using column name")
+				for row in records:
+					id = row["patientId"]
+					patient.append(id)
+					print(id)
+					print(type(patient))
 				
-			mySql_insert_query = """INSERT INTO UltrasoundImage (image, diagnosis,patientId)VALUES(%s, %s, %s) """
+				mySql_insert_query = """INSERT INTO UltrasoundImage (image, diagnosis,patientId)VALUES(%s, %s, %s) """
 			
-			savedImage = convertToBinaryData(image)
+				savedImage = convertToBinaryData(image)
 
-			record = (savedImage, currentDiagnosis, patient)
-			cursor = connection.cursor()
-			cursor.execute(mySql_insert_query, record)
-			connection.commit()
-			print(cursor.rowcount, "Record inserted successfully into UltrasoundImage table")
-			cursor.close()
+				record = (savedImage, currentDiagnosis, patient)
+				cursor = connection.cursor()
+				cursor.execute(mySql_insert_query, record)
+				connection.commit()
+				print(cursor.rowcount, "Record inserted successfully into UltrasoundImage table")
+				cursor.close()
 
-		except mysql.connector.Error as error:
-			print("Failed to insert record into Laptop table {}".format(error))
+			except mysql.connector.Error as error:
+				print("Failed to insert record into Laptop table {}".format(error))
 
-		finally:
-			if connection.is_connected():
-				connection.close()
-				print("MySQL connection is closed")	    #st.text("Probability (0: Normal, 1: Sick")
+		#finally:
+			#if connection.is_connected():
+				#connection.close()
+				#print("MySQL connection is closed")	    #st.text("Probability (0: Normal, 1: Sick")
 	    #st.write(prediction)
 	    
 	    #--sidebar
