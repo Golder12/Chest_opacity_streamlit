@@ -24,7 +24,11 @@ from mysql.connector import Error
 #def insert_patient(patientId, name, image, note):
 	#return db.put({"key": patientId, "name": name, "image": image, "diagnosis": note})
 	
-
+def convertToBinaryData(filename):
+    # Convert digital data to binary format
+    with open(filename, 'rb') as file:
+        binaryData = file.read()
+    return binaryData
 
 # ---- User authentication -----
 names = ["Moses Ntanda", "Doki Golder"]
@@ -110,8 +114,10 @@ if authentication_status:
 				print(type(patient))
 				
 			mySql_insert_query = """INSERT INTO UltrasoundImage (image, diagnosis,patientId)VALUES(%s, %s, %s) """
+			
+			savedImage = convertToBinaryData(photo)
 
-			record = (image, currentDiagnosis, patient)
+			record = (savedImage, currentDiagnosis, patient)
 			cursor = connection.cursor()
 			cursor.execute(mySql_insert_query, record)
 			connection.commit()
