@@ -94,8 +94,6 @@ if authentication_status:
 		with diagnosisNote:
 			txt = st.text_area('Notes about patient ultrasound...')   
 		
-		if st.button("Check"):
-			st.success("Button works")
 		
 		save_button = st.form_submit_button(label='Save')
 		if save_button:
