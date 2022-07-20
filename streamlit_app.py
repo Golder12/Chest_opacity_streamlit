@@ -93,6 +93,8 @@ if authentication_status:
 	with diagnosisNote:
 		txt = st.text_area('Notes about patient ultrasound...')   
 		
+	if st.button("Check"):
+		st.success("Button works")
 		
 	if st.button("Save"):
 		try:
